@@ -47,8 +47,8 @@ func NewFis(name string) *Fis {
 type Config struct {
 	CacheDir   string
 	TargerAddr string
-	Port       int
 	Address    string
+	Port       int
 }
 
 func NewConfig() *Config {

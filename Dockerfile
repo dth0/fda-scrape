@@ -1,4 +1,4 @@
-FROM golang:1.20.5-alpine as builder
+FROM golang:1.20.6-alpine as builder
 ENV CGO_ENABLED 0
 
 WORKDIR /src/fda-scrape
@@ -11,7 +11,7 @@ RUN go mod download
 COPY . .
 
 RUN mkdir build && \
-	go build -o ./build/ ./cmd/fda-scrape
+	go build -o ./build/fda-scrape
 
 FROM alpine
 

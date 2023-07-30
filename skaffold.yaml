@@ -1,0 +1,20 @@
+apiVersion: skaffold/v4beta6
+kind: Config
+metadata:
+  name: fda-scrape
+build:
+  artifacts:
+    - image: busybox
+      buildpacks:
+        builder: gcr.io/buildpacks/builder:v1
+    - image: dtheodoro/fda-scrape
+      docker:
+        dockerfile: Dockerfile
+deploy:
+  helm:
+    releases:
+      - name: fda-scrape
+        chartPath: deployment/fda-scrape
+        valuesFiles:
+          - deployment/fda-scrape/values.yaml
+        version: 0.1.0
