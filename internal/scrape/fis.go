@@ -34,8 +34,8 @@ func FisHandler(config *Config) func(http.ResponseWriter, *http.Request) {
 			log.Printf("(%s) Response Code: %d", papel, r.StatusCode)
 		})
 
-		c.OnError(func(_ *colly.Response, err error) {
-			log.Println("Error: ", err)
+		c.OnError(func(r *colly.Response, err error) {
+			log.Printf("(%s) Response Code: %d, error: %v, url: %s", papel, r.StatusCode, err, r.Request.URL)
 		})
 
 		c.OnHTML("div.conteudo.clearfix", func(h *colly.HTMLElement) {
@@ -107,7 +107,9 @@ func FisHandler(config *Config) func(http.ResponseWriter, *http.Request) {
 
 		})
 
-		c.Visit(fmt.Sprintf("%s?papel=%s", config.TargerAddr, papel))
+		if err := c.Visit(fmt.Sprintf("%s?papel=%s", config.TargerAddr, papel)); err != nil {
+			log.Println("Visit error: ", err)
+		}
 
 		response(w, fis, http.StatusOK)
 	}
